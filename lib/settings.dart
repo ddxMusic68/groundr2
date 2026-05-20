@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'main.dart';
 import 'json.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -38,27 +39,19 @@ class _SettingsPageState extends State<SettingsPage> {
             decoration: InputDecoration(
               labelText: 'News URL',
             ),
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
           ),
           TextField(
             controller: emailURL,
             decoration: InputDecoration(
               labelText: 'Email URL',
             ),
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
           ),
           ElevatedButton(
             onPressed: () {
               saveSettings({
-                "calendar": int.tryParse(calendarURL.text) ?? 20,
-                "news": int.tryParse(newsURL.text) ?? 10,
-                "email": int.tryParse(emailURL.text) ?? 5,
+                "calendar": calendarURL.text,
+                "news": newsURL.text,
+                "email": emailURL.text,
               });
             },
             child: Text('Save Settings'),

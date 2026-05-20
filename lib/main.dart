@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'settings.dart';
+import 'json.dart';
 
 // final Uri url = Uri.parse('https://google.com');
 
@@ -14,7 +15,6 @@ import 'settings.dart';
 void main() {
   runApp(MainApp());
 }
-
 
 
 class MainApp extends StatefulWidget {
@@ -46,15 +46,18 @@ class _MainAppState extends State<MainApp> {
         ),
         floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setCurrentIndex(1);
+          switch (currentIndex) {
+            case 0: setCurrentIndex(1);
+            case 1: setCurrentIndex(0);
+            default: null;
+          };
         },
-        child: Icon(Icons.settings),
+        child: (currentIndex == 0) ? Icon(Icons.settings) : Icon(Icons.home),
       ),
       ),
     );
   }
 }
-
 
 Widget getMain() {
   return Row(
@@ -62,16 +65,34 @@ Widget getMain() {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       ElevatedButton(
-        onPressed: () async {},
+        onPressed: () async {
+          final settings = await loadSettings();
+          final url = Uri.parse(settings["calendar"]);
+          if (!await launchUrl(url)) {
+            throw Exception('Could not launch $url');
+          }
+        },
         child: Icon(Icons.calendar_month_outlined, size: 40),
       ),
       ElevatedButton(
-        onPressed: () async {},
+        onPressed: () async {
+          final settings = await loadSettings();
+          final url = Uri.parse(settings["email"]);
+          if (!await launchUrl(url)) {
+            throw Exception('Could not launch $url');
+          }
+        },
         child: Icon(Icons.email, size: 40),
       ),
       ElevatedButton(
-        onPressed: () {},
-        child: Icon(Icons.format_quote, size: 40),
+        onPressed: () async {
+          final settings = await loadSettings();
+          final url = Uri.parse(settings["news"]);
+          if (!await launchUrl(url)) {
+            throw Exception('Could not launch $url');
+          }
+        },
+        child: Icon(Icons.newspaper, size: 40),
       ),
     ],
   );
