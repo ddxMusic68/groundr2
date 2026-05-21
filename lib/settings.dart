@@ -24,6 +24,12 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
+  void resetText() {
+    calendarURL.clear();
+    newsURL.clear();
+    emailURL.clear();
+  }
+
   @override
   Widget build(BuildContext context) { 
     return Column (
@@ -53,6 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 "news": newsURL.text,
                 "email": emailURL.text,
               });
+              resetText();
             },
             child: Text('Save Settings'),
           )
@@ -60,3 +67,4 @@ class _SettingsPageState extends State<SettingsPage> {
       );
   }
 }
+

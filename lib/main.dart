@@ -60,11 +60,15 @@ class _MainAppState extends State<MainApp> {
 }
 
 Widget getMain() {
-  return Row(
+  return 
+  Padding (
+    padding: EdgeInsets.all(20),
+    child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      ElevatedButton(
+      getButton(
+        icon: Icons.calendar_month_outlined,
         onPressed: () async {
           final settings = await loadSettings();
           final url = Uri.parse(settings["calendar"]);
@@ -72,9 +76,10 @@ Widget getMain() {
             throw Exception('Could not launch $url');
           }
         },
-        child: Icon(Icons.calendar_month_outlined, size: 40),
       ),
-      ElevatedButton(
+      SizedBox(width:20),
+      getButton(
+        icon: Icons.email,
         onPressed: () async {
           final settings = await loadSettings();
           final url = Uri.parse(settings["email"]);
@@ -82,9 +87,10 @@ Widget getMain() {
             throw Exception('Could not launch $url');
           }
         },
-        child: Icon(Icons.email, size: 40),
       ),
-      ElevatedButton(
+      SizedBox(width:20),
+      getButton(
+        icon: Icons.newspaper,
         onPressed: () async {
           final settings = await loadSettings();
           final url = Uri.parse(settings["news"]);
@@ -92,8 +98,20 @@ Widget getMain() {
             throw Exception('Could not launch $url');
           }
         },
-        child: Icon(Icons.newspaper, size: 40),
       ),
     ],
+  )
+  );
+}
+
+Expanded getButton({required IconData icon, required VoidCallback onPressed}) {
+  return Expanded( 
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(0, 100),
+      ),
+      onPressed: onPressed,
+      child: Icon(icon, size: 40),
+    )
   );
 }
